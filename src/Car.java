@@ -4,10 +4,17 @@ import java.util.List;
 
 public class Car extends Actor
 {
+    private int xCord;
+    private int yCord;
 
     public Car()
     {
 
+    }
+    public Car(int x, int y)
+    {
+       xCord=x;
+       yCord=y;
     }
 
 
@@ -27,8 +34,9 @@ public class Car extends Actor
       List<Road> roadList = getWorld().getObjects(Road.class);
 
     }
-    public void moveTo(Object road, Object car, int xCord, int yCord)
+    public void moveTo(Road road)
     {
+
 
     }
 

@@ -39,7 +39,7 @@ public class Title extends World {
                     for(int j = 0; j < 16; j++)
                     {
                         int tile = s.nextInt();
-                        map.setCell(i,j, getTile(tile, i , j));
+                        //map.setCell(i,j, getTile(tile, i , j));
                     }
                     s.nextLine();
                 }
@@ -54,11 +54,11 @@ public class Title extends World {
         }
     }
 
-    public Cell getTile(int id, int i, int j)
+    /*public Cell getTile(int id, int i, int j)
     {
         if(id == 0)
             return new Grass(i * 50, j * 50, 50,50);
         if(id == 1)
 
-    }
+    }*/
 }

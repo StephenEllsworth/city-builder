@@ -1,5 +1,6 @@
 import mayflower.*;
 
+import java.util.List;
 
 
 public class House extends Building
@@ -58,4 +59,8 @@ public class House extends Building
         return electricCost;
     }
 
+    public List<Road> returnNeighbors()
+    {
+        return getNeighbors(50, false, Road.class);
+    }
 }

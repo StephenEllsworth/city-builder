@@ -10,20 +10,28 @@ public class Runner extends Mayflower
         //Open a GUI Window with the specified title, width, and height
         //DO NOT WRITE ANY ADDITIONAL CODE IN THIS CONSTRUCTOR!
         //You should only change the arguments to the super method.
-        super("Memes(Alpha build .03)", 1400, 800, true);
+        super("Memes(Alpha build .03)", 1405, 825, true);
     }
 
     //The init method is called as soon as the Mayflower window is Opened.
     //This is where you will setup the initial state of your game
     //ie, create the first world of your game
     @Override
-    public void init()
+    public void init ()
     {
         //Set the argument to true if you want your game to run in Full Screen Mode
         Mayflower.setFullScreen(true);
+        World startingWorld = null;
 
         //TODO: create a new World
-        World startingWorld = new Title();
+        try {
+            startingWorld = new Title();
+        }
+        catch (Exception e)
+        {
+            System.out.println("nope");
+        }
+
 
         //TODO: load your world into the Mayflower Window
         Mayflower.setWorld(startingWorld);

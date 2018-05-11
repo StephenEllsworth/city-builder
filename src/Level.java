@@ -10,8 +10,15 @@ import java.awt.*;
 public class Level extends World {
     private CellMap map;
     private BuildingHandler bh;
+    private Car car;
+    boolean roadExists;
 
     public Level() {
+
+        car = new Car();
+        roadExists = false;
+
+
         map = new CellMap(26,16);
         for(int i = 0; i < map.rows(); i++)
         {
@@ -29,6 +36,23 @@ public class Level extends World {
 
     public void act()
     {
+        for(int i=0; i<map.rows(); i++)
+        {
+            for(int j=0; j<map.cols(); j++)
+            {
+                if(map.getCell(i,j) instanceof Road)
+                {
+
+                    roadExists=true;
+
+                }
+            }
+        }
+        if(roadExists==true) {
+            spawnCar(car);
+            car.moveTo();
+        }
+
         if(bh.updateMap() != null)
             map = bh.updateMap();
 
@@ -52,5 +76,20 @@ public class Level extends World {
 
     public CellMap getMap() {
         return map;
+    }
+
+    public void spawnCar(Car car)
+    {
+      Cell [][] roadMap = map.getMap();
+      for(int i =0; i<roadMap.length; i++)
+      {
+          for(int j=0; j<roadMap[0].length; j++)
+          {
+              if(roadMap[i][j] instanceof Road)
+              {
+                  addObject(car, roadMap[i][j].getX(), roadMap[i][j].getY());
+              }
+          }
+      }
     }
 }

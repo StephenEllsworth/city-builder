@@ -12,7 +12,8 @@ public class Car extends Actor
 
     public Car()
     {
-
+        super();
+     setImage("img/Car.png");
     }
     public Car(int x, int y)
     {
@@ -27,23 +28,46 @@ public class Car extends Actor
     }
 
 
-    public void carNavigation()
-    {
-        List<Factory> factoryList =  getWorld().getObjects(Factory.class);
-        int factoryIndex = (int)(Math.random()*factoryList.size());
-        Factory randomFactory = factoryList.get(factoryIndex);
 
+    public void moveTo()
+    {
 
       List<Road> roadList = getWorld().getObjects(Road.class);
+      List<Road> junctionPoints = getJunctionPoints(roadList);
+      List<Road> randomJunctionPoints = null;
 
-    }
+      //car coordinates
+      int x = this.getX();
+      int y = this.getY();
 
+      //int factoryX= factory.getX();
+    //  int factoryY = factory.getY();
 
+      //gets a list of random junction points.
+      for(int i =0; i<junctionPoints.size(); i++)
+      {
+          int roadIndex = (int)(Math.random()*junctionPoints.size());
+           Road randomJunction=junctionPoints.get(roadIndex);
+           randomJunctionPoints.add(randomJunction);
+      }
 
-
-    public void moveTo(Factory factory)
-    {
-
+       //Checks locations.
+      if(this.isTouching(Road.class))
+      {
+          for(int j=0; j<randomJunctionPoints.size(); j++)
+          {
+              if(x==(randomJunctionPoints.get(j).getX()))
+              {
+                  this.turnTowards(randomJunctionPoints.get(j));
+                  this.move(1);
+              }
+              else if(y==randomJunctionPoints.get(j).getY())
+              {
+                  this.turnTowards(randomJunctionPoints.get(j));
+                  this.move(1);
+              }
+          }
+      }
 
 
 

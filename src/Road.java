@@ -13,14 +13,40 @@ public class Road extends Cell {
 
     public void act()
     {
-
+        if (Mayflower.mouseHovered(this)) {
+            getWorld().showText("Road", 15, 1325, 550, Color.BLACK);
+            getWorld().showText("" + getX(), 15, 1325, 575, Color.BLACK);
+            getWorld().showText("" + getY(), 15, 1325, 600, Color.BLACK);
+        }
     }
 
 
 
 
-    public List<Road> returnNeighbors()
+    public List<Road> getNeighbors(Level level)
     {
-        return getNeighbors(50, false, Road.class);
+        level.getMap();
+        List<Road> neighbors = new ArrayList<Road>();
+        if(level.getMap().getCell((this.getX()/50)+50, (this.getY()/50)) instanceof Road)
+        {
+            Road r = (Road) level.getMap().getCell((this.getX()/50)+50, (this.getY()/50));
+            neighbors.add(r);
+        }
+        if(level.getMap().getCell((this.getX()/50)-50, (this.getY()/50) )instanceof Road)
+        {
+            Road r = (Road) level.getMap().getCell((this.getX()/50)-50, (this.getY()/50));
+            neighbors.add(r);
+        }
+        if(level.getMap().getCell((this.getX()/50), (this.getY()/50)-50 )instanceof Road)
+        {
+            Road r = (Road) level.getMap().getCell((this.getX()/50), (this.getY()/50)-50);
+            neighbors.add(r);
+        }
+        if(level.getMap().getCell((this.getX()/50), (this.getY()/50)+50 )instanceof Road)
+        {
+            Road r = (Road) level.getMap().getCell((this.getX()/50), (this.getY()/50)+50);
+            neighbors.add(r);
+        }
+        return neighbors;
     }
 }

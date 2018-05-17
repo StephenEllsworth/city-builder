@@ -3,20 +3,26 @@ import mayflower.Mayflower;
 import mayflower.MouseInfo;
 import mayflower.World;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.awt.*;
-
+import mayflower.*;
 
 public class Level extends World {
     private CellMap map;
     private BuildingHandler bh;
     private Car car;
     boolean roadExists;
+    boolean junctionPoint;
+    Timer timer;
 
     public Level() {
 
         car = new Car();
         roadExists = false;
+        junctionPoint = false;
+        timer = new Timer(999999999);
+
 
 
         map = new CellMap(26,16);
@@ -36,22 +42,23 @@ public class Level extends World {
 
     public void act()
     {
-        for(int i=0; i<map.rows(); i++)
-        {
-            for(int j=0; j<map.cols(); j++)
-            {
-                if(map.getCell(i,j) instanceof Road)
-                {
+        for(int i=0; i<map.rows(); i++) {
+            for (int j = 0; j < map.cols(); j++) {
+                if (map.getCell(i, j) instanceof Road && isJunctionPoint((Road) (map.getCell(i, j)))) {
 
-                    roadExists=true;
+                    roadExists = true;
+                    //junctionPoint = true;
 
                 }
             }
+
+
+            if (roadExists == true ) {
+                spawnCar(car);
+                car.moveTo();
+            }
         }
-        if(roadExists==true) {
-            spawnCar(car);
-            car.moveTo();
-        }
+
 
         if(bh.updateMap() != null)
             map = bh.updateMap();
@@ -92,4 +99,91 @@ public class Level extends World {
           }
       }
     }
+
+
+
+
+
+
+    public boolean isJunctionPoint(Road road)
+    {
+
+        Road left= null;
+        Road right= null;
+        Road down = null;
+        Road up  = null;
+        List<Road> neighbors = road.getNeighbors(this);
+
+        if (neighbors.size() > 0) {
+            for (int i = 0; i < neighbors.size(); i++) {
+                if (neighbors.get(i).getY() == (road.getY()) && neighbors.get(i).getX() == road.getX() - 50) ;
+                {
+                    left = neighbors.get(i);
+                }
+                if (neighbors.get(i).getY() == (road.getY()) && neighbors.get(i).getX() == road.getX() + 50) {
+                    right = neighbors.get(i);
+                }
+                if (neighbors.get(i).getX() == (road.getX()) && neighbors.get(i).getY() == road.getY() - 50) {
+                    up = neighbors.get(i);
+                }
+                if (neighbors.get(i).getX() == (road.getX()) && neighbors.get(i).getY() == road.getY() + 50) {
+                    down = neighbors.get(i);
+                }
+            }
+        }
+
+        if(left!=null && right !=null)
+        {
+            if(up != null && down !=null)
+            {
+                return true;
+            }
+        }
+
+        else if (left!=null && right != null)
+        {
+            if(up !=null || down !=null)
+            {
+                return true;
+            }
+        }
+
+        else if(up !=null && down!=null)
+        {
+            if(left !=null || right!=null)
+            {
+                return true;
+            }
+        }
+
+        else if(left!=null || right!=null)
+        {
+            if(up!=null || down!=null)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+
+    public List<Road> getJunctionPoints(List<Road> roadCells)
+    {
+
+        ArrayList<Road> junctionPoints = new ArrayList<Road>();
+
+
+        Cell[][] cellMap=map.getMap();
+
+        for(int i =0; i<roadCells.size(); i++)
+        {
+            if(isJunctionPoint(roadCells.get(i)) ==true)
+            {
+                junctionPoints.add(roadCells.get(i));
+            }
+        }
+        return junctionPoints;
+    }
+
 }

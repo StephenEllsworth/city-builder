@@ -116,7 +116,7 @@ public class BuildingHandler extends Actor {
                     map.setCell(Mayflower.getMouseInfo().getX()/50, Mayflower.getMouseInfo().getY()/50, selected);
                     getWorld().removeObject(a);
                     Road r = (Road) selected;
-                    l.setMoney(l.getMoney() - r.getCost());
+//                    l.setMoney(l.getMoney() - r.getCost());
 
                 }
                 else if(a instanceof Grass && a.getX() <= 1300 && !(selected instanceof Grass))
@@ -127,7 +127,7 @@ public class BuildingHandler extends Actor {
                         map.setCell(Mayflower.getMouseInfo().getX()/50, Mayflower.getMouseInfo().getY()/50, selected);
                         getWorld().removeObject(a);
                         Building b = (Building) selected;
-                        l.setMoney(l.getMoney() - b.getCost());
+//                        l.setMoney(l.getMoney() - b.getCost());
                     }
                 }
                 else if (selectable != null && a != null && selected instanceof Grass && a.getX() <= 1300)
@@ -282,7 +282,6 @@ public class BuildingHandler extends Actor {
                 {
                     mapHist.push(new CellMap(0));
                     prevMap = map.copy();
-                    System.out.println("different cells");
                     return;
                 }
                 else
@@ -293,7 +292,6 @@ public class BuildingHandler extends Actor {
                         {
                             mapHist.push(new CellMap(0));
                             prevMap = map.copy();
-                            System.out.println("wrong grass");
                             return;
                         }
                     }

@@ -18,7 +18,7 @@ public class Level extends World {
 
     public Level() {
 
-        car = new Car();
+        car = new Car(0, 0, this);
         roadExists = false;
         junctionPoint = false;
         timer = new Timer(999999999);
@@ -42,22 +42,7 @@ public class Level extends World {
 
     public void act()
     {
-        for(int i=0; i<map.rows(); i++) {
-            for (int j = 0; j < map.cols(); j++) {
-                if (map.getCell(i, j) instanceof Road && isJunctionPoint((Road) (map.getCell(i, j)))) {
-
-                    roadExists = true;
-                    //junctionPoint = true;
-
-                }
-            }
-
-
-            if (roadExists == true ) {
-                spawnCar(car);
-                car.moveTo();
-            }
-        }
+        spawnCar();
 
 
         if(bh.updateMap() != null)
@@ -85,19 +70,15 @@ public class Level extends World {
         return map;
     }
 
-    public void spawnCar(Car car)
-    {
-      Cell [][] roadMap = map.getMap();
-      for(int i =0; i<roadMap.length; i++)
-      {
-          for(int j=0; j<roadMap[0].length; j++)
-          {
-              if(roadMap[i][j] instanceof Road)
-              {
-                  addObject(car, roadMap[i][j].getX(), roadMap[i][j].getY());
-              }
-          }
-      }
+    public void spawnCar(Car car) {
+
+            List<Road> roadObjects = this.getRoadObjects();
+            int randomRoad = (int)(Math.random() * roadObjects.size());
+            Road randomRoadObject = roadObjects.get(randomRoad);
+
+            Car c = new Car (50,50,this);
+            this.addObject(c, randomRoadObject.getX(), randomRoadObject.getY());
+
     }
 
 
@@ -116,17 +97,17 @@ public class Level extends World {
 
         if (neighbors.size() > 0) {
             for (int i = 0; i < neighbors.size(); i++) {
-                if (neighbors.get(i).getY() == (road.getY()) && neighbors.get(i).getX() == road.getX() - 50) ;
+                if (neighbors.get(i).gety() == (road.gety()) && neighbors.get(i).getx() == road.getx() - 1) ;
                 {
                     left = neighbors.get(i);
                 }
-                if (neighbors.get(i).getY() == (road.getY()) && neighbors.get(i).getX() == road.getX() + 50) {
+                if (neighbors.get(i).gety() == (road.gety()) && neighbors.get(i).getx() == road.getx() + 1) {
                     right = neighbors.get(i);
                 }
-                if (neighbors.get(i).getX() == (road.getX()) && neighbors.get(i).getY() == road.getY() - 50) {
+                if (neighbors.get(i).getx() == (road.getx()) && neighbors.get(i).gety() == road.gety() - 1) {
                     up = neighbors.get(i);
                 }
-                if (neighbors.get(i).getX() == (road.getX()) && neighbors.get(i).getY() == road.getY() + 50) {
+                if (neighbors.get(i).getx() == (road.getx()) && neighbors.get(i).gety() == road.gety() + 1) {
                     down = neighbors.get(i);
                 }
             }
@@ -184,6 +165,56 @@ public class Level extends World {
             }
         }
         return junctionPoints;
+    }
+
+    public List<Road> getRoadObjects()
+    {
+        List<Road> roadObjects = new ArrayList<Road>();
+        for(int rows =0; rows<map.rows(); rows++)
+        {
+            for(int cols =0; cols<map.cols(); cols++)
+            {
+                if(map.getCell(rows,cols) instanceof Road)
+                {
+                    Road r = (Road) map.getCell(rows,cols);
+                    roadObjects.add(r);
+                }
+            }
+        }
+
+
+        return roadObjects;
+    }
+
+    public void spawnCar()
+    {
+        int random=0;
+
+            for (int i = 0; i < map.rows(); i++) {
+                for (int j = 0; j < map.cols(); j++) {
+
+                        random = (int)(Math.random()*1000);
+                        if (map.getCell(i, j) instanceof Road) {
+                            roadExists = true;
+                            //junctionPoint = true;
+
+                        } else {
+                            roadExists = false;
+                        }
+
+
+
+
+
+                    if (random == 1 && roadExists == true) {
+                        spawnCar(car);
+                        car.moveTo();
+
+                    }
+                }
+            }
+
+
     }
 
 }

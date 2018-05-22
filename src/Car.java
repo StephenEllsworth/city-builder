@@ -21,12 +21,13 @@ public class Car extends Actor
        xCord=x;
        yCord=y;
        level=l;
+       setImage("img/Car.png");
     }
 
 
     public void act()
     {
-
+        map = level.getMap();
     }
 
 
@@ -34,9 +35,9 @@ public class Car extends Actor
     public void moveTo()
     {
 
-      List<Road> roadList = getWorld().getObjects(Road.class);
+      List<Road> roadList = level.getRoadObjects();
       List<Road> junctionPoints = level.getJunctionPoints(roadList);
-      List<Road> randomJunctionPoints = null;
+      List<Road> randomJunctionPoints = new ArrayList<Road>();
 
       //car coordinates
       int x = this.getX();
@@ -58,7 +59,8 @@ public class Car extends Actor
       {
           for(int j=0; j<randomJunctionPoints.size(); j++)
           {
-              if(x==(randomJunctionPoints.get(j).getX()))
+              if((x==(randomJunctionPoints.get(j).getX())) || (x==randomJunctionPoints.get(j).getX()+25) || (x==randomJunctionPoints.get(j).getX()-25)  )
+
               {
                   this.turnTowards(randomJunctionPoints.get(j));
                   this.move(1);

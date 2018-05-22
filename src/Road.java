@@ -25,26 +25,25 @@ public class Road extends Cell {
 
     public List<Road> getNeighbors(Level level)
     {
-        level.getMap();
         List<Road> neighbors = new ArrayList<Road>();
-        if(level.getMap().getCell((this.getX()/50)+50, (this.getY()/50)) instanceof Road)
+        if(level.getMap().getCell(this.getx() - 1, this.gety()) instanceof Road)
         {
-            Road r = (Road) level.getMap().getCell((this.getX()/50)+50, (this.getY()/50));
+            Road r = (Road) level.getMap().getCell(this.getx() - 1, this.gety());
             neighbors.add(r);
         }
-        if(level.getMap().getCell((this.getX()/50)-50, (this.getY()/50) )instanceof Road)
+        if(level.getMap().getCell((this.getx()+1), (this.gety()) )instanceof Road)
         {
-            Road r = (Road) level.getMap().getCell((this.getX()/50)-50, (this.getY()/50));
+            Road r = (Road) level.getMap().getCell((this.getx()+1), (this.gety()));
             neighbors.add(r);
         }
-        if(level.getMap().getCell((this.getX()/50), (this.getY()/50)-50 )instanceof Road)
+        if(level.getMap().getCell((this.getx()), (this.gety()-1) )instanceof Road)
         {
-            Road r = (Road) level.getMap().getCell((this.getX()/50), (this.getY()/50)-50);
+            Road r = (Road) level.getMap().getCell((this.getX()), (this.gety()-1));
             neighbors.add(r);
         }
-        if(level.getMap().getCell((this.getX()/50), (this.getY()/50)+50 )instanceof Road)
+        if(level.getMap().getCell((this.getx()), (this.gety()+1) )instanceof Road)
         {
-            Road r = (Road) level.getMap().getCell((this.getX()/50), (this.getY()/50)+50);
+            Road r = (Road) level.getMap().getCell((this.getx()), (this.gety()+1));
             neighbors.add(r);
         }
         return neighbors;
